@@ -1,0 +1,36 @@
+<div class="d-flex flex-column align-content-stretch">
+  <div *ngFor="let control of formArrayControls | keyvalue; index as i" class="mb-2 form-array-item">
+    <fieldset [ngClass]="{ 'border-red ': hasErrors(control.key) }">
+      <legend class="d-flex align-items-center h-100">
+        <span>{{getControlName(i)}}</span>
+        <button mat-icon-button (click)="removeControl(i)" title="Remove">
+          <mat-icon>delete</mat-icon>
+          <span class="cdk-visually-hidden">Delete</span>
+        </button>
+        <mat-icon
+          *ngIf="hasErrors(control.key)"
+          color="warn"
+          class="align-self-center mt-2">
+          warning
+        </mat-icon>
+      </legend>
+      <ng-template formArrayHost [multiTypeElement]="control"></ng-template>
+    </fieldset>
+  </div>
+  <div class="d-flex align-items-center justify-content-end">
+    <mat-form-field>
+      <mat-label>Add new type</mat-label>
+      <mat-select [formControl]="elementType">
+        <mat-option *ngFor="let type of registeredElements | keyvalue"
+                    [value]="type.value">
+          {{type.key}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-icon-button (click)="addNewElement()">
+      <mat-icon>add</mat-icon>
+      <span class="cdk-visually-hidden">Add</span>
+    </button>
+  </div>
+</div>
